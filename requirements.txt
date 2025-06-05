@@ -3,4 +3,4 @@ openai
 transformers
 huggingface_hub
 replicate
-request
+requests
