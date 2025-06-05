@@ -1,8 +1,9 @@
 import gradio as gr
 import openai  # 使用 openai 套件但連到 Groq
+import os
 
 # ====== 設定 Groq API 相關參數 ======
-openai.api_key = "你的 Groq API 金鑰"
+openai.api_key = os.getenv("GROQ_API_KEY")
 openai.base_url = "https://api.groq.com/openai/v1"
 
 model = "llama3-70b-8192"  # Groq 支援的 LLaMA3 模型名稱
