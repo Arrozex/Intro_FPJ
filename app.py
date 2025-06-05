@@ -1,16 +1,19 @@
 import gradio as gr
-import openai  # 或 huggingface_hub / requests 接 API
+import openai  # 使用 openai 套件但連到 Groq
 
-openai.api_key = "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"  # 或改用環境變數儲存
+# ====== 設定 Groq API 相關參數 ======
+openai.api_key = "你的 Groq API 金鑰"
+openai.base_url = "https://api.groq.com/openai/v1"
+
+model = "llama3-70b-8192"  # Groq 支援的 LLaMA3 模型名稱
 
 # 處理函數
 def analyze_emotion(mood, diary):
-    # 將心情與日記交給語言模型處理，產出圖像與音樂 prompt
     system_prompt = "你是一個情感分析師，根據用戶心情與日記，生成一個圖像描述與音樂風格建議。"
     user_prompt = f"心情：{mood}\n日記：{diary}\n請分別生成圖像描述與音樂風格。"
 
     response = openai.ChatCompletion.create(
-        model="gpt-4",
+        model=model,
         messages=[
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": user_prompt}
@@ -18,8 +21,8 @@ def analyze_emotion(mood, diary):
         temperature=0.8
     )
 
-    output = response['choices'][0]['message']['content']
-    return output
+    return response.choices[0].message.content
+
 
 # Gradio UI
 with gr.Blocks() as demo:
