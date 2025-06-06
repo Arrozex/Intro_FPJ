@@ -4,14 +4,14 @@ import { useRouter } from 'next/navigation'
 
 // 模擬的歷史數據
 const mockHistoryData = {
-  '2024-12-01': { mood: '快樂', emoji: '😊', diary: '今天天氣很好，心情也很棒！' },
-  '2024-12-03': { mood: '平靜', emoji: '😌', diary: '讀了一本好書，感覺很平靜。' },
-  '2024-12-05': { mood: '焦慮', emoji: '😰', diary: '工作壓力有點大...' },
-  '2024-12-08': { mood: '快樂', emoji: '😊', diary: '和朋友聚餐，非常開心！' },
-  '2024-12-12': { mood: '悲傷', emoji: '😢', diary: '今天有點低落，不知道為什麼。' },
-  '2024-12-15': { mood: '憤怒', emoji: '😡', diary: '遇到一些令人生氣的事情。' },
-  '2024-12-18': { mood: '快樂', emoji: '😊', diary: '完成了一個重要的項目！' },
-  '2024-12-20': { mood: '平靜', emoji: '😌', diary: '冥想了一小時，內心很平靜。' },
+  '2025-06-01': { mood: '快樂', emoji: '😊', diary: '今天天氣很好，心情也很棒！' },
+  '2025-06-03': { mood: '平靜', emoji: '😌', diary: '讀了一本好書，感覺很平靜。' },
+  '2025-06-05': { mood: '焦慮', emoji: '😰', diary: '工作壓力有點大...' },
+  '2025-06-08': { mood: '快樂', emoji: '😊', diary: '和朋友聚餐，非常開心！' },
+  '2025-06-12': { mood: '悲傷', emoji: '😢', diary: '今天有點低落，不知道為什麼。' },
+  '2025-06-15': { mood: '憤怒', emoji: '😡', diary: '遇到一些令人生氣的事情。' },
+  '2025-06-18': { mood: '快樂', emoji: '😊', diary: '完成了一個重要的項目！' },
+  '2025-06-20': { mood: '平靜', emoji: '😌', diary: '冥想了一小時，內心很平靜。' },
 }
 
 interface HistoryEntry {
@@ -199,12 +199,21 @@ export default function HistoryPage() {
           </div>
         </div>
 
+
+        // 獲取目前年月 (例如 '2025-06')
+        const currentMonth = new Date().toISOString().slice(0, 7)
+
+        // 過濾出本月的紀錄
+        const currentMonthData = Object.entries(mockHistoryData).filter(([date, _]) =>
+        date.startsWith(currentMonth)
+        )
+
         {/* 統計信息 */}
         <div className="mt-8 bg-[#fceeac] rounded-3xl shadow-xl p-8">
           <h3 className="text-xl font-bold text-[#BB5E00] mb-6">本月心情統計</h3>
           <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
             {['快樂', '悲傷', '焦慮', '平靜', '憤怒'].map(mood => {
-              const count = Object.values(mockHistoryData).filter(entry => entry.mood === mood).length
+              const count = Object.values(currentMonthData).filter(entry => entry.mood === mood).length
               const emoji = { '快樂': '😊', '悲傷': '😢', '焦慮': '😰', '平靜': '😌', '憤怒': '😡' }[mood]
               
               return (
