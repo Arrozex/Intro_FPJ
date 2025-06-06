@@ -47,12 +47,12 @@ export default function HomePage() {
       className="min-h-screen flex items-center justify-center p-6"
       style={{
         background:
-          'linear-gradient(135deg, #FFED97 0%, #FFD54F 100%)',
+          'linear-gradient(135deg, #FFED97 0%, #f2af4b 100%)',
       }}
     >
       <form
         onSubmit={handleSubmit}
-        className="bg-[#FFED97] rounded-3xl shadow-xl max-w-3xl w-full p-12 space-y-10 flex flex-col items-center"
+        className="bg-[#fceeac] rounded-3xl shadow-xl max-w-3xl w-full p-12 space-y-10 flex flex-col items-center"
         style={{ minHeight: 600 }}
       >
         <h1
@@ -94,7 +94,7 @@ export default function HomePage() {
               rows={6}
               placeholder="寫下今天的心情..."
               required={!!mood}
-              className="w-full rounded-lg border-0 px-4 py-3 text-[#3d2e00] resize-none placeholder-[#b3982c] focus:outline-none focus:ring-4 focus:ring-[#BB5E00] transition"
+              className="w-full rounded-lg border-1 px-4 py-3 text-[#3d2e00] resize-none placeholder-[#b3982c] focus:outline-none focus:ring-4 focus:ring-[#d18f4b] transition"
             />
           </label>
 
@@ -102,7 +102,7 @@ export default function HomePage() {
             type="submit"
             disabled={loading || !mood}
             className={`w-full py-4 rounded-xl text-white font-semibold
-                bg-[#BB5E00] hover:bg-[#a04e00] focus:outline-none focus:ring-4 focus:ring-[#BB5E00] transition disabled:opacity-50 disabled:cursor-not-allowed text-lg`}
+                bg-[#d18f4b] hover:bg-[#bd7b39] focus:outline-none focus:ring-4 focus:ring-[#BB5E00] transition disabled:opacity-50 disabled:cursor-not-allowed text-lg`}
           >
             {loading ? '生成中...' : '分析並生成'}
           </button>
