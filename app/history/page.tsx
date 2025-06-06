@@ -209,7 +209,7 @@ export default function HistoryPage() {
           <h3 className="text-xl font-bold text-[#BB5E00] mb-6">本月心情統計</h3>
           <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
             {['快樂', '悲傷', '焦慮', '平靜', '憤怒'].map(mood => {
-              const count = Object.values(currentMonthData).filter(entry => entry.mood === mood).length
+              const count = currentMonthData.filter(([, entry]) => entry.mood === mood).length
               const emoji = { '快樂': '😊', '悲傷': '😢', '焦慮': '😰', '平靜': '😌', '憤怒': '😡' }[mood]
               
               return (
