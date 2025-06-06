@@ -36,6 +36,23 @@ function ResultContent() {
           </div>
         )}
 
+        {/* ✅ 顯示生成提示詞區塊 */}
+        {(prompt || musicPrompt) && (
+          <div className="mb-8">
+            <h2 className="text-xl font-semibold text-[#BB5E00] mb-4">🎨 生成用的提示詞</h2>
+            {prompt && (
+              <div className="bg-white p-4 rounded-lg shadow mb-4">
+                <p className="text-[#444] font-mono whitespace-pre-wrap">{prompt}</p>
+              </div>
+            )}
+            {musicPrompt && (
+              <div className="bg-white p-4 rounded-lg shadow">
+                <p className="text-[#444] font-mono whitespace-pre-wrap">{musicPrompt}</p>
+              </div>
+            )}
+          </div>
+        )}
+
         <button
           onClick={() => window.history.back()}
           className="bg-[#d18f4b] hover:bg-[#bd7b39] text-white px-6 py-3 rounded-xl font-semibold transition-colors duration-200 shadow-lg"
@@ -47,10 +64,3 @@ function ResultContent() {
   )
 }
 
-export default function ResultPage() {
-  return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <ResultContent />
-    </Suspense>
-  )
-}
