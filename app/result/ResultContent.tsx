@@ -5,47 +5,60 @@ import Image from 'next/image'
 
 export default function ResultContent() {
   const searchParams = useSearchParams()
-  const imageUrl = searchParams.get('img')
-  const musicUrl = searchParams.get('music')
-  const promptPic = searchParams.get('prompt')
-  const promptMusic = searchParams.get('music_prompt')
+  const img = searchParams.get('img')
+  const music = searchParams.get('music')
+  const prompt = searchParams.get('prompt')
+  const musicPrompt = searchParams.get('music_prompt')
 
   return (
-    <div className="min-h-screen bg-gray-100 p-6 flex flex-col items-center space-y-6">
-      <h1 className="text-3xl font-bold text-center">🎉 生成結果</h1>
+    <div className="min-h-screen p-6" style={{
+      background: 'linear-gradient(135deg, #FFED97 0%, #f2af4b 100%)',
+    }}>
+      <div className="max-w-4xl mx-auto">
+        <h1 className="text-3xl font-bold text-[#BB5E00] mb-8 text-center">
+          🎵 生成結果
+        </h1>
 
-      <div className="w-full max-w-xl bg-white p-4 rounded shadow space-y-4">
-        <div>
-          <h2 className="text-xl font-semibold">🎨 圖像描述詞</h2>
-          <p className="text-gray-700">{promptPic}</p>
-        </div>
-
-        {imageUrl ? (
-          <Image
-            src={imageUrl}
-            alt="生成圖片"
-            width={800}
-            height={600}
-            className="rounded"
-          />
-        ) : (
-          <p className="text-red-500">⚠️ 圖片載入失敗或尚未生成。</p>
+        {img && (
+          <div className="mb-8">
+            <h2 className="text-xl font-semibold text-[#BB5E00] mb-4">生成的圖片</h2>
+            <img src={img} alt="Generated" className="w-full max-w-md mx-auto rounded-lg shadow-lg" />
+          </div>
         )}
 
-        <div>
-          <h2 className="text-xl font-semibold">🎵 音樂描述詞</h2>
-          <p className="text-gray-700">{promptMusic}</p>
-        </div>
-
-        {musicUrl ? (
-          <audio controls className="w-full mt-2">
-            <source src={musicUrl} type="audio/wav" />
-            你的瀏覽器不支援 audio 播放。
-          </audio>
-        ) : (
-          <p className="text-red-500">⚠️ 音樂載入失敗或尚未生成。</p>
+        {music && (
+          <div className="mb-8">
+            <h2 className="text-xl font-semibold text-[#BB5E00] mb-4">生成的音樂</h2>
+            <audio controls className="w-full">
+              <source src={music} type="audio/mpeg" />
+            </audio>
+          </div>
         )}
+
+        {(prompt || musicPrompt) && (
+          <div className="mb-8">
+            <h2 className="text-xl font-semibold text-[#BB5E00] mb-4">🎨 生成用的提示詞</h2>
+            {prompt && (
+              <div className="bg-white p-4 rounded-lg shadow mb-4">
+                <p className="text-[#444] font-mono whitespace-pre-wrap">{prompt}</p>
+              </div>
+            )}
+            {musicPrompt && (
+              <div className="bg-white p-4 rounded-lg shadow">
+                <p className="text-[#444] font-mono whitespace-pre-wrap">{musicPrompt}</p>
+              </div>
+            )}
+          </div>
+        )}
+
+        <button
+          onClick={() => window.history.back()}
+          className="bg-[#d18f4b] hover:bg-[#bd7b39] text-white px-6 py-3 rounded-xl font-semibold transition-colors duration-200 shadow-lg"
+        >
+          ← 返回
+        </button>
       </div>
     </div>
   )
 }
+
