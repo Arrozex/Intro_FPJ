@@ -19,7 +19,7 @@ function ResultContent() {
     <div
       className="min-h-screen p-6 bg-cover bg-center"
       style={{
-        backgroundImage: `url(${backgroundImage})`,
+        backgroundImage: 'url(https://images.unsplash.com/photo-1503264116251-35a269479413?auto=format&fit=crop&w=1950&q=80)',
       }}
     >
       {/* 歷史記錄按鈕 */}
