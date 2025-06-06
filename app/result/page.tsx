@@ -11,25 +11,25 @@ function ResultContent() {
   const prompt = searchParams.get('prompt')
   const musicPrompt = searchParams.get('music_prompt')
 
+  // 背景圖片邏輯
+  const backgroundImage = img || '/night-sky-stars.jpg'
+
   return (
-    <div className="min-h-screen p-6" style={{
-      background: 'linear-gradient(135deg, #FFED97 0%, #f2af4b 100%)',
-    }}>
-      <div className="max-w-4xl mx-auto">
+    <div
+      className="min-h-screen p-6 bg-cover bg-center"
+      style={{
+        backgroundImage: `url(${backgroundImage})`,
+      }}
+    >
+      <div className="backdrop-blur-sm bg-white/70 rounded-xl p-6 max-w-4xl mx-auto shadow-xl">
         <h1 className="text-3xl font-bold text-[#BB5E00] mb-8 text-center">
           🎵 生成結果
         </h1>
 
-        {img && (
-          <div className="mb-8">
-            <h2 className="text-xl font-semibold text-[#BB5E00] mb-4">生成的圖片</h2>
-            <img src={img} alt="Generated" className="w-full max-w-md mx-auto rounded-lg shadow-lg mb-4" />
-            {prompt && (
-              <p className="text-center text-[#7a3e00] text-sm italic">
-                圖片提示詞：{prompt}
-              </p>
-            )}
-          </div>
+        {prompt && (
+          <p className="text-center text-[#7a3e00] text-sm italic mb-6">
+            圖片提示詞：{prompt}
+          </p>
         )}
 
         {music && (
@@ -38,9 +38,11 @@ function ResultContent() {
             <audio controls className="w-full">
               <source src={music} type="audio/mpeg" />
             </audio>
-              <p className="text-center text-[#7a3e00] text-sm italic">
+            {musicPrompt && (
+              <p className="text-center text-[#7a3e00] text-sm italic mt-2">
                 音樂提示詞：{musicPrompt}
               </p>
+            )}
           </div>
         )}
 
