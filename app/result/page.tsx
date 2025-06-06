@@ -38,6 +38,9 @@ function ResultContent() {
             <audio controls className="w-full">
               <source src={music} type="audio/mpeg" />
             </audio>
+              <p className="text-center text-[#7a3e00] text-sm italic">
+                音樂提示詞：{musicPrompt}
+              </p>
           </div>
         )}
 
