@@ -15,7 +15,7 @@ export default function ResultContent() {
   const [imageError, setImageError] = useState(false)
   const [musicError, setMusicError] = useState(false)
 
-  // Validate URLs (basic check for demo purposes)
+  // Validate URLs
   useEffect(() => {
     if (imageUrl && !imageUrl.startsWith('http')) {
       setImageError(true)
@@ -70,7 +70,7 @@ export default function ResultContent() {
                 className="rounded-lg shadow-lg max-w-full h-auto"
                 onError={() => setImageError(true)}
                 placeholder="blur"
-                blurDataURL="/placeholder.png" // Optional: add a placeholder image
+                blurDataURL="/placeholder.png" // Replace with actual placeholder if needed
               />
             </div>
           </div>
