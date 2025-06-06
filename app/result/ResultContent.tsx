@@ -1,116 +1,75 @@
 'use client'
-
-import { useSearchParams } from 'next/navigation'
 import Image from 'next/image'
-import { useState, useEffect } from 'react'
 
-export default function ResultContent() {
-  const searchParams = useSearchParams()
-  const imageUrl = searchParams.get('img')
-  const musicUrl = searchParams.get('music')
-  const promptPic = searchParams.get('prompt')
-  const promptMusic = searchParams.get('music_prompt')
+interface ResultContentProps {
+  imageUrl: string | null
+  promptPic: string | null
+  promptMusic: string | null
+  musicUrl: string | null
+  loading: boolean
+}
 
-  // State for handling loading and error states
-  const [imageError, setImageError] = useState(false)
-  const [musicError, setMusicError] = useState(false)
-
-  // Validate URLs
-  useEffect(() => {
-    if (imageUrl && !imageUrl.startsWith('http')) {
-      setImageError(true)
-    }
-    if (musicUrl && !musicUrl.startsWith('http')) {
-      setMusicError(true)
-    }
-  }, [imageUrl, musicUrl])
-
+export default function ResultContent({
+  imageUrl,
+  promptPic,
+  promptMusic,
+  musicUrl,
+  loading,
+}: ResultContentProps) {
   return (
-    <div
-      className="min-h-screen p-6 flex flex-col items-center"
-      style={{
-        background: 'linear-gradient(135deg, #FFED97 0%, #f2af4b 100%)',
-      }}
-    >
-      <div className="max-w-4xl w-full bg-white rounded-lg shadow-lg p-6 space-y-6">
-        {/* Header */}
-        <h1 className="text-3xl font-bold text-[#BB5E00] text-center">
-          🎉 生成結果
-        </h1>
-
-        {/* Prompts Section */}
-        {(promptPic || promptMusic) && (
-          <div className="space-y-4">
-            <h2 className="text-xl font-semibold text-[#BB5E00]">📝 生成提示詞</h2>
-            {promptPic && (
-              <div className="bg-gray-50 p-4 rounded-lg shadow">
-                <h3 className="text-lg font-medium text-[#BB5E00] mb-2">圖像提示詞</h3>
-                <p className="text-gray-700 font-mono whitespace-pre-wrap">{promptPic}</p>
-              </div>
-            )}
-            {promptMusic && (
-              <div className="bg-gray-50 p-4 rounded-lg shadow">
-                <h3 className="text-lg font-medium text-[#BB5E00] mb-2">音樂提示詞</h3>
-                <p className="text-gray-700 font-mono whitespace-pre-wrap">{promptMusic}</p>
-              </div>
-            )}
-          </div>
-        )}
-
-        {/* Image Section */}
-        {imageUrl && !imageError ? (
-          <div className="space-y-4">
-            <h2 className="text-xl font-semibold text-[#BB5E00]">🖼️ 生成的圖片</h2>
-            <div className="flex justify-center">
-              <Image
-                src={imageUrl}
-                alt="生成的圖片"
-                width={800}
-                height={600}
-                className="rounded-lg shadow-lg max-w-full h-auto"
-                onError={() => setImageError(true)}
-                placeholder="blur"
-                blurDataURL="/placeholder.png" // Replace with actual placeholder if needed
-              />
-            </div>
-          </div>
-        ) : (
-          <p className="text-red-500 text-center">
-            ⚠️ 圖片載入失敗或尚未生成。
-          </p>
-        )}
-
-        {/* Music Section */}
-        {musicUrl && !musicError ? (
-          <div className="space-y-4">
-            <h2 className="text-xl font-semibold text-[#BB5E00]">🎵 生成的音樂</h2>
-            <audio
-              controls
-              className="w-full"
-              onError={() => setMusicError(true)}
-              aria-label="播放生成的音樂"
-            >
-              <source src={musicUrl} type="audio/mpeg" />
-              你的瀏覽器不支援 audio 播放。
-            </audio>
-          </div>
-        ) : (
-          <p className="text-red-500 text-center">
-            ⚠️ 音樂載入失敗或尚未生成。
-          </p>
-        )}
-
-        {/* Back Button */}
-        <div className="flex justify-center">
-          <button
-            onClick={() => window.history.back()}
-            className="bg-[#d18f4b] hover:bg-[#bd7b39] text-white px-6 py-3 rounded-xl font-semibold transition-colors duration-200 shadow-lg"
-            aria-label="返回上一頁"
-          >
-            ← 返回
-          </button>
+    <div className="w-full space-y-8">
+      {loading ? (
+        <div className="w-full flex justify-center">
+          <div className="w-12 h-12 border-4 border-[#d18f4b] border-t-transparent rounded-full animate-spin"></div>
         </div>
-      </div>
+      ) : (
+        <>
+          {/* 圖片顯示區 */}
+          {imageUrl ? (
+            <div className="w-full flex flex-col items-center">
+              <h2 className="text-2xl font-semibold text-[#BB5E00] mb-4">生成圖片</h2>
+              <div className="relative w-full max-w-md h-64 bg-white/90 rounded-lg shadow-lg overflow-hidden">
+                <Image
+                  src={imageUrl}
+                  alt="Generated Mood Image"
+                  fill
+                  className="object-cover"
+                  onError={() => {}}
+                />
+              </div>
+              {promptPic && (
+                <p className="text-[#BB5E00] mt-4 text-sm max-w-md break-words text-center">
+                  <span className="font-semibold">圖片提示詞:</span> {promptPic}
+                </p>
+              )}
+            </div>
+          ) : (
+            <p className="text-[#BB5E00] text-center">圖片生成失敗，請稍後重試</p>
+          )}
+
+          {/* 音樂提示詞顯示區 */}
+          {promptMusic && (
+            <div className="w-full flex flex-col items-center">
+              <h2 className="text-2xl font-semibold text-[#BB5E00] mb-4">音樂風格</h2>
+              <p className="text-[#BB5E00] text-sm max-w-md break-words text-center">
+                <span className="font-semibold">音樂提示詞:</span> {promptMusic}
+              </p>
+              {musicUrl ? (
+                <audio
+                  controls
+                  className="mt-4 w-full max-w-md"
+                  src={musicUrl}
+                  onError={() => {}}
+                >
+                  你的瀏覽器不支援音頻播放
+                </audio>
+              ) : (
+                <p className="text-[#BB5E00] text-sm mt-4">音樂生成尚未支援</p>
+              )}
+            </div>
+          )}
+        </>
+      )}
     </div>
   )
 }
