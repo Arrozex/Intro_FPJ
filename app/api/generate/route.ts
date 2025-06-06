@@ -1,15 +1,43 @@
 // app/api/generate/route.ts
-import { NextRequest, NextResponse } from "next/server";
+
+import { NextRequest, NextResponse } from 'next/server'
 
 export async function POST(req: NextRequest) {
-  const { mood, diary } = await req.json();
+  try {
+    const { mood, diary } = await req.json()
 
-  // 處理分析與生成邏輯（例如呼叫 OpenAI、生成圖片等）
+    const response = await fetch('https://yitxx-prompt-generate.hf.space/api/predict/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        data: [mood, diary],
+      }),
+    })
 
-  return NextResponse.json({
-    prompt_pic: "A melancholic rainy city...",
-    image_url: "https://...",
-    prompt_music: "A slow emotional sad song...",
-    status: "✅ 完成"
-  });
+    if (!response.ok) {
+      const errorText = await response.text()
+      return NextResponse.json({ error: '遠端 API 失敗', detail: errorText }, { status: 500 })
+    }
+
+    const result = await response.json()
+
+    // 根據你 HF Space 的格式調整：
+    const [prompt_pic, image_url, prompt_music, status] = result.data
+    const music_url = "https://your-music-url" // 如果還沒返回音樂網址，可以放固定值或空值
+
+    return NextResponse.json({
+      prompt_pic,
+      image_url,
+      prompt_music,
+      music_url,
+      status,
+    })
+  } catch (error: any) {
+    return NextResponse.json(
+      { error: '處理失敗', detail: error.message },
+      { status: 500 }
+    )
+  }
 }
