@@ -1,6 +1,4 @@
-import dynamic from 'next/dynamic'
-
-const ResultContent = dynamic(() => import('./ResultContent'))
+import ResultContent from './ResultContent'
 
 export default function Page() {
   return <ResultContent />
