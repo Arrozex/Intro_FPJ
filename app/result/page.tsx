@@ -6,6 +6,7 @@ import { Suspense } from 'react'
 
 function ResultContent() {
   const searchParams = useSearchParams()
+  const router = useRouter()
   const img = searchParams.get('img')
   const music = searchParams.get('music')
   const prompt = searchParams.get('prompt')
