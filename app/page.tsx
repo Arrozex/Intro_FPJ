@@ -31,17 +31,52 @@ export default function HomePage() {
         }),
       })
       
+      const contentType = response.headers.get('content-type')
+      let errorMessage = ''
+      
       if (response.ok) {
-        setApiStatus('connected')
-        setApiError('')
+        // 嘗試解析JSON來確認API格式正確
+        try {
+          const data = await response.json()
+          if (data.prompt_pic || data.image_url || data.status) {
+            setApiStatus('connected')
+            setApiError('')
+            return
+          } else {
+            setApiStatus('error')
+            setApiError('API返回格式不正確')
+            return
+          }
+        } catch (jsonError) {
+          setApiStatus('error')
+          setApiError('API返回非JSON格式')
+          return
+        }
       } else {
-        const errorData = await response.json()
+        // 處理錯誤響應
+        try {
+          if (contentType && contentType.includes('application/json')) {
+            const errorData = await response.json()
+            errorMessage = errorData.error || errorData.detail || `HTTP ${response.status}`
+          } else {
+            // 如果不是JSON，讀取文本內容
+            const errorText = await response.text()
+            errorMessage = `HTTP ${response.status}: ${errorText.substring(0, 100)}...`
+          }
+        } catch (parseError) {
+          errorMessage = `HTTP ${response.status}: 無法解析錯誤訊息`
+        }
+        
         setApiStatus('error')
-        setApiError(errorData.error || `HTTP ${response.status}`)
+        setApiError(errorMessage)
       }
     } catch (error: any) {
       setApiStatus('error')
-      setApiError(error.message || '網路連接失敗')
+      if (error.name === 'TypeError' && error.message.includes('fetch')) {
+        setApiError('無法連接到伺服器')
+      } else {
+        setApiError(error.message || '網路連接失敗')
+      }
     }
   }
 
