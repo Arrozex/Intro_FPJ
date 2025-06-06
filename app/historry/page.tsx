@@ -2,6 +2,14 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 
+export default function HistoryPage() {
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-[#fffbe6] p-6">
+      <h1 className="text-3xl font-bold text-[#BB5E00]">這裡是歷史紀錄頁面 📅</h1>
+    </div>
+  )
+}
+
 // 模擬的歷史數據
 const mockHistoryData = {
   '2024-12-01': { mood: '快樂', emoji: '😊', diary: '今天天氣很好，心情也很棒！' },
