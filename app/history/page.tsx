@@ -204,9 +204,7 @@ export default function HistoryPage() {
         const currentMonth = new Date().toISOString().slice(0, 7)
 
         // 過濾出本月的紀錄
-        const currentMonthData = Object.entries(mockHistoryData).filter(([date, _]) =>
-        date.startsWith(currentMonth)
-        )
+        const currentMonthData = Object.entries(mockHistoryData).filter(([date, _]) => date.startsWith(currentMonth))
 
         {/* 統計信息 */}
         <div className="mt-8 bg-[#fceeac] rounded-3xl shadow-xl p-8">
