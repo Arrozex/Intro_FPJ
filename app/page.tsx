@@ -50,7 +50,7 @@ export default function HomePage() {
       <form
         onSubmit={handleSubmit}
         className="bg-[#FFED97] border-4 border-[#BB5E00] rounded-3xl shadow-xl max-w-3xl w-full p-12 space-y-10 flex flex-col items-center"
-        style={{ minHeight: 600 }}
+        style={{ minHeight: '600px' }}
       >
         <h1
           className="text-4xl font-extrabold text-[#BB5E00] select-none mb-8"
@@ -59,6 +59,7 @@ export default function HomePage() {
           🎵 你今天心情如何？
         </h1>
 
+        {/* 表情按鈕區 */}
         <div className="flex gap-8 mb-12 justify-center">
           {moods.map(({ label, emoji }) => (
             <button
@@ -75,6 +76,7 @@ export default function HomePage() {
           ))}
         </div>
 
+        {/* 日記輸入區，點選表情後才顯示，帶淡入上滑動畫 */}
         {mood && (
           <div
             className="w-full max-w-xl flex flex-col gap-6 opacity-0 animate-fadeInUp animation-fill-forwards"
