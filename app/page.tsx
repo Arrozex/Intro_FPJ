@@ -45,12 +45,15 @@ export default function HomePage() {
   return (
     <div
       className="min-h-screen flex items-center justify-center p-6"
-      style={{ backgroundColor: '#FFED97' }}
+      style={{
+        background:
+          'linear-gradient(135deg, #FFED97 0%, #FFD54F 100%)',
+      }}
     >
       <form
         onSubmit={handleSubmit}
-        className="bg-[#FFED97] border-4 border-[#BB5E00] rounded-3xl shadow-xl max-w-3xl w-full p-12 space-y-10 flex flex-col items-center"
-        style={{ minHeight: '600px' }}
+        className="bg-[#FFED97] rounded-3xl shadow-xl max-w-3xl w-full p-12 space-y-10 flex flex-col items-center"
+        style={{ minHeight: 600 }}
       >
         <h1
           className="text-4xl font-extrabold text-[#BB5E00] select-none mb-8"
@@ -59,7 +62,6 @@ export default function HomePage() {
           🎵 你今天心情如何？
         </h1>
 
-        {/* 表情按鈕區 */}
         <div className="flex gap-8 mb-12 justify-center">
           {moods.map(({ label, emoji }) => (
             <button
@@ -76,53 +78,36 @@ export default function HomePage() {
           ))}
         </div>
 
-        {/* 日記輸入區，點選表情後才顯示，帶淡入上滑動畫 */}
-        {mood && (
-          <div
-            className="w-full max-w-xl flex flex-col gap-6 opacity-0 animate-fadeInUp animation-fill-forwards"
-            style={{ animationDuration: '0.6s', animationTimingFunction: 'ease-out' }}
-          >
-            <label className="block">
-              <span className="text-[#BB5E00] font-semibold mb-2 inline-block text-lg">
-                日記內容
-              </span>
-              <textarea
-                value={diary}
-                onChange={e => setDiary(e.target.value)}
-                rows={6}
-                placeholder="寫下今天的心情..."
-                required
-                className="w-full rounded-lg border-2 border-[#BB5E00] px-4 py-3 text-[#3d2e00] resize-none placeholder-[#b3982c] focus:outline-none focus:ring-4 focus:ring-[#BB5E00] transition"
-              />
-            </label>
+        {/* 文字框用 transition 控制顯示/隱藏及位移 */}
+        <div
+          className={`w-full max-w-xl flex flex-col gap-6 transition-all duration-700 ease-out ${
+            mood ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-10 pointer-events-none'
+          }`}
+        >
+          <label className="block">
+            <span className="text-[#BB5E00] font-semibold mb-2 inline-block text-lg">
+              日記內容
+            </span>
+            <textarea
+              value={diary}
+              onChange={e => setDiary(e.target.value)}
+              rows={6}
+              placeholder="寫下今天的心情..."
+              required={!!mood}
+              className="w-full rounded-lg border-0 px-4 py-3 text-[#3d2e00] resize-none placeholder-[#b3982c] focus:outline-none focus:ring-4 focus:ring-[#BB5E00] transition"
+            />
+          </label>
 
-            <button
-              type="submit"
-              disabled={loading}
-              className={`w-full py-4 rounded-xl text-white font-semibold
+          <button
+            type="submit"
+            disabled={loading || !mood}
+            className={`w-full py-4 rounded-xl text-white font-semibold
                 bg-[#BB5E00] hover:bg-[#a04e00] focus:outline-none focus:ring-4 focus:ring-[#BB5E00] transition disabled:opacity-50 disabled:cursor-not-allowed text-lg`}
-            >
-              {loading ? '生成中...' : '分析並生成'}
-            </button>
-          </div>
-        )}
+          >
+            {loading ? '生成中...' : '分析並生成'}
+          </button>
+        </div>
       </form>
-
-      <style jsx>{`
-        @keyframes fadeInUp {
-          0% {
-            opacity: 0;
-            transform: translateY(20px);
-          }
-          100% {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-        .animate-fadeInUp {
-          animation-name: fadeInUp;
-        }
-      `}</style>
     </div>
   )
 }
