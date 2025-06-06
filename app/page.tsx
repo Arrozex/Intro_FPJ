@@ -13,7 +13,7 @@ const moods = [
 
 export default function HomePage() {
   const router = useRouter()
-  const [mood, setMood] = useState('快樂')
+  const [mood, setMood] = useState('')
   const [diary, setDiary] = useState('')
   const [loading, setLoading] = useState(false)
 
@@ -30,7 +30,11 @@ export default function HomePage() {
     const data = await res.json()
 
     if (res.ok) {
-      router.push(`/result?img=${encodeURIComponent(data.image_url)}&music=${encodeURIComponent(data.music_url)}&prompt=${encodeURIComponent(data.prompt_pic)}&music_prompt=${encodeURIComponent(data.prompt_music)}`)
+      router.push(
+        `/result?img=${encodeURIComponent(data.image_url)}&music=${encodeURIComponent(
+          data.music_url
+        )}&prompt=${encodeURIComponent(data.prompt_pic)}&music_prompt=${encodeURIComponent(data.prompt_music)}`
+      )
     } else {
       alert('生成失敗，請稍後再試')
     }
@@ -39,60 +43,84 @@ export default function HomePage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#FFF4C1] p-6">
+    <div
+      className="min-h-screen flex items-center justify-center p-6"
+      style={{ backgroundColor: '#FFED97' }}
+    >
       <form
         onSubmit={handleSubmit}
-        className="bg-white bg-opacity-90 backdrop-blur-md p-8 rounded-2xl shadow-xl max-w-lg w-full space-y-6"
+        className="bg-[#FFED97] border-4 border-[#BB5E00] rounded-3xl shadow-xl max-w-3xl w-full p-12 space-y-10 flex flex-col items-center"
+        style={{ minHeight: 600 }}
       >
-        <h1 className="text-3xl font-extrabold text-center text-[#b38f00] mb-4 select-none">
-          🎵 心情日記生成器
+        <h1
+          className="text-4xl font-extrabold text-[#BB5E00] select-none mb-8"
+          style={{ userSelect: 'none' }}
+        >
+          🎵 你今天心情如何？
         </h1>
 
-        <div>
-          <span className="text-[#b38f00] font-semibold mb-2 inline-block">你今天的心情是？</span>
-          <div className="flex gap-4 mt-2 justify-center">
-            {moods.map(({ label, emoji }) => (
-              <button
-                type="button"
-                key={label}
-                onClick={() => setMood(label)}
-                aria-label={label}
-                className={`text-3xl transition-transform duration-150 ${
-                  mood === label ? 'scale-125' : 'scale-100 opacity-70 hover:opacity-100'
-                }`}
-              >
-                {emoji}
-              </button>
-            ))}
-          </div>
+        <div className="flex gap-8 mb-12 justify-center">
+          {moods.map(({ label, emoji }) => (
+            <button
+              key={label}
+              type="button"
+              aria-label={label}
+              onClick={() => setMood(label)}
+              className={`text-5xl transition-transform duration-200 ${
+                mood === label ? 'scale-125' : 'scale-100 opacity-60 hover:opacity-100'
+              }`}
+            >
+              {emoji}
+            </button>
+          ))}
         </div>
 
-        <label className="block">
-          <span className="text-[#b38f00] font-semibold mb-1 inline-block">日記內容</span>
-          <textarea
-            value={diary}
-            onChange={e => setDiary(e.target.value)}
-            rows={5}
-            className="mt-1 block w-full rounded-md border border-[#b38f00] px-3 py-2 text-gray-800
-                       resize-none placeholder-[#d6b800]
-                       focus:outline-none focus:ring-2 focus:ring-[#b38f00] focus:border-transparent transition"
-            placeholder="寫下今天的心情..."
-            required
-          />
-        </label>
+        {mood && (
+          <div
+            className="w-full max-w-xl flex flex-col gap-6 opacity-0 animate-fadeInUp animation-fill-forwards"
+            style={{ animationDuration: '0.6s', animationTimingFunction: 'ease-out' }}
+          >
+            <label className="block">
+              <span className="text-[#BB5E00] font-semibold mb-2 inline-block text-lg">
+                日記內容
+              </span>
+              <textarea
+                value={diary}
+                onChange={e => setDiary(e.target.value)}
+                rows={6}
+                placeholder="寫下今天的心情..."
+                required
+                className="w-full rounded-lg border-2 border-[#BB5E00] px-4 py-3 text-[#3d2e00] resize-none placeholder-[#b3982c] focus:outline-none focus:ring-4 focus:ring-[#BB5E00] transition"
+              />
+            </label>
 
-        <button
-          type="submit"
-          disabled={loading}
-          className={`w-full py-3 rounded-lg text-white font-semibold
-            bg-gradient-to-r from-[#b38f00] via-[#d6b800] to-[#f0c419]
-            hover:from-[#a07a00] hover:via-[#c1a300] hover:to-[#deb71e]
-            focus:outline-none focus:ring-4 focus:ring-[#b38f00]
-            transition disabled:opacity-50 disabled:cursor-not-allowed`}
-        >
-          {loading ? '生成中...' : '分析並生成'}
-        </button>
+            <button
+              type="submit"
+              disabled={loading}
+              className={`w-full py-4 rounded-xl text-white font-semibold
+                bg-[#BB5E00] hover:bg-[#a04e00] focus:outline-none focus:ring-4 focus:ring-[#BB5E00] transition disabled:opacity-50 disabled:cursor-not-allowed text-lg`}
+            >
+              {loading ? '生成中...' : '分析並生成'}
+            </button>
+          </div>
+        )}
       </form>
+
+      <style jsx>{`
+        @keyframes fadeInUp {
+          0% {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          100% {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        .animate-fadeInUp {
+          animation-name: fadeInUp;
+        }
+      `}</style>
     </div>
   )
 }
