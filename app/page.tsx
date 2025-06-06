@@ -91,17 +91,17 @@ export default function HomePage() {
             <textarea
               value={diary}
               onChange={e => setDiary(e.target.value)}
-              rows={6}
+              rows={8}
               placeholder="寫下今天的心情..."
               required={!!mood}
-              className="w-full rounded-lg border-1 px-4 py-3 text-[#3d2e00] resize-none placeholder-[#b3982c] focus:outline-none focus:ring-4 focus:ring-[#d18f4b] transition"
+              className="w-full rounded-lg border-0 px-4 py-3 text-[#3d2e00] resize-none placeholder-[#b3982c] focus:outline-none focus:ring-4 focus:ring-[#d18f4b] transition"
             />
           </label>
 
           <button
             type="submit"
             disabled={loading || !mood}
-            className={`w-full py-4 rounded-xl text-white font-semibold
+            className={`w-full py-3 rounded-xl text-white font-semibold
                 bg-[#d18f4b] hover:bg-[#bd7b39] focus:outline-none focus:ring-4 focus:ring-[#BB5E00] transition disabled:opacity-50 disabled:cursor-not-allowed text-lg`}
           >
             {loading ? '生成中...' : '分析並生成'}
