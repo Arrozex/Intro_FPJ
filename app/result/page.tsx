@@ -23,7 +23,12 @@ function ResultContent() {
         {img && (
           <div className="mb-8">
             <h2 className="text-xl font-semibold text-[#BB5E00] mb-4">生成的圖片</h2>
-            <img src={img} alt="Generated" className="w-full max-w-md mx-auto rounded-lg shadow-lg" />
+            <img src={img} alt="Generated" className="w-full max-w-md mx-auto rounded-lg shadow-lg mb-4" />
+            {prompt && (
+              <p className="text-center text-[#7a3e00] text-sm italic">
+                圖片提示詞：{prompt}
+              </p>
+            )}
           </div>
         )}
 
@@ -46,6 +51,7 @@ function ResultContent() {
     </div>
   )
 }
+
 
 export default function ResultPage() {
   return (
