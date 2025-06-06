@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 
 const moods = [
@@ -15,6 +15,40 @@ export default function HomePage() {
   const [mood, setMood] = useState('')
   const [diary, setDiary] = useState('')
   const [loading, setLoading] = useState(false)
+  const [apiStatus, setApiStatus] = useState<'checking' | 'connected' | 'error' | 'idle'>('idle')
+  const [apiError, setApiError] = useState('')
+
+  // 檢測API連接狀態
+  const checkApiConnection = async () => {
+    setApiStatus('checking')
+    try {
+      const response = await fetch('/api/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          mood: '測試', 
+          diary: '這是一個API連接測試' 
+        }),
+      })
+      
+      if (response.ok) {
+        setApiStatus('connected')
+        setApiError('')
+      } else {
+        const errorData = await response.json()
+        setApiStatus('error')
+        setApiError(errorData.error || `HTTP ${response.status}`)
+      }
+    } catch (error: any) {
+      setApiStatus('error')
+      setApiError(error.message || '網路連接失敗')
+    }
+  }
+
+  // 頁面載入時自動檢測
+  useEffect(() => {
+    checkApiConnection()
+  }, [])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -45,6 +79,47 @@ export default function HomePage() {
           'linear-gradient(135deg, #FFED97 0%, #f2af4b 100%)',
       }}
     >
+      {/* API 狀態欄 */}
+      <div className="fixed top-4 left-4 right-4 z-50 flex justify-center">
+        <div className={`px-6 py-3 rounded-xl shadow-lg font-semibold text-sm flex items-center gap-3 transition-all duration-500 ${
+          apiStatus === 'checking' 
+            ? 'bg-yellow-100 text-yellow-800 border-2 border-yellow-300' 
+            : apiStatus === 'connected'
+            ? 'bg-green-100 text-green-800 border-2 border-green-300'
+            : apiStatus === 'error'
+            ? 'bg-red-100 text-red-800 border-2 border-red-300'
+            : 'hidden'
+        }`}>
+          {apiStatus === 'checking' && (
+            <>
+              <div className="w-4 h-4 border-2 border-yellow-600 border-t-transparent rounded-full animate-spin"></div>
+              檢測 API 連接中...
+            </>
+          )}
+          {apiStatus === 'connected' && (
+            <>
+              <div className="w-4 h-4 bg-green-600 rounded-full flex items-center justify-center">
+                <div className="w-2 h-2 bg-white rounded-full"></div>
+              </div>
+              API 連接正常 ✅
+            </>
+          )}
+          {apiStatus === 'error' && (
+            <>
+              <div className="w-4 h-4 bg-red-600 rounded-full flex items-center justify-center">
+                <div className="w-1 h-3 bg-white rounded-full"></div>
+              </div>
+              API 連接失敗: {apiError}
+              <button
+                onClick={checkApiConnection}
+                className="ml-2 px-3 py-1 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+              >
+                重試
+              </button>
+            </>
+          )}
+        </div>
+      </div>
       <form
         onSubmit={handleSubmit}
         className="bg-[#fceeac] rounded-3xl shadow-xl max-w-3xl w-full p-12 space-y-10 flex flex-col items-center relative"
@@ -53,7 +128,7 @@ export default function HomePage() {
         {/* 歷史記錄按鈕 */}
         <button
           type="button"
-          onClick={() => router.push('/history/page.tsx')}
+          onClick={() => router.push('/history')}
           className="absolute top-6 right-6 bg-[#d18f4b] hover:bg-[#bd7b39] text-white px-4 py-2 rounded-xl font-semibold transition-colors duration-200 shadow-lg"
         >
           📅 歷史記錄
@@ -115,11 +190,14 @@ export default function HomePage() {
           </label>
           <button
             type="submit"
-            disabled={loading || !mood}
-            className={`w-full py-3 rounded-xl text-white font-semibold
-                bg-[#d18f4b] hover:bg-[#bd7b39] focus:outline-none focus:ring-4 focus:ring-[#BB5E00] transition disabled:opacity-50 disabled:cursor-not-allowed text-lg shadow-lg hover:shadow-xl transform hover:scale-105`}
+            disabled={loading || !mood || apiStatus !== 'connected'}
+            className={`w-full py-3 rounded-xl text-white font-semibold transition shadow-lg hover:shadow-xl transform hover:scale-105 ${
+              apiStatus !== 'connected' 
+                ? 'bg-gray-400 cursor-not-allowed' 
+                : 'bg-[#d18f4b] hover:bg-[#bd7b39] focus:outline-none focus:ring-4 focus:ring-[#BB5E00] disabled:opacity-50 disabled:cursor-not-allowed'
+            } text-lg`}
           >
-            {loading ? '生成中...' : '分析並生成'}
+            {loading ? '生成中...' : apiStatus !== 'connected' ? 'API 未連接' : '分析並生成'}
           </button>
         </div>
       </form>
