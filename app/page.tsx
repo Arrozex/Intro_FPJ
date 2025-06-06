@@ -22,7 +22,7 @@ export default function HomePage() {
   const checkApiConnection = async () => {
     setApiStatus('checking')
     try {
-      const response = await fetch('/api/generate/route.ts', {
+      const response = await fetch('/api/generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
