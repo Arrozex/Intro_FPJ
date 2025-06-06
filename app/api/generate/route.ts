@@ -1,29 +1,15 @@
-"use client";
-import { useState } from "react";
+// app/api/generate/route.ts
+import { NextRequest, NextResponse } from "next/server";
 
-export default function Home() {
-  const [mood, setMood] = useState("");
-  const [diary, setDiary] = useState("");
-  const [result, setResult] = useState<any>(null);
+export async function POST(req: NextRequest) {
+  const { mood, diary } = await req.json();
 
-  async function handleSubmit() {
-    const res = await fetch("https://yitxx-prompt-generate.hf.space", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ mood, diary }),
-    });
-    const data = await res.json();
-    setResult(data);
-  }
+  // 處理分析與生成邏輯（例如呼叫 OpenAI、生成圖片等）
 
-  return (
-    <main className="p-4">
-      <h1 className="text-2xl mb-4">🎵 心情日記 App</h1>
-      <label>你的心情</label>
-      <input value={mood} onChange={e => setMood(e.target.value)} className="border p-2 mb-4 block" />
-      <label>日記內容</label>
-      <textarea value={diary} onChange={e => setDiary(e.target.value)} className="border p-2 mb-4 block" />
-      <button onClick={handleSubmit} className="bg-blue-500 text-white px-4 py-2">產生</button>
-
-      {result && (
-        <div className="mt-4"
+  return NextResponse.json({
+    prompt_pic: "A melancholic rainy city...",
+    image_url: "https://...",
+    prompt_music: "A slow emotional sad song...",
+    status: "✅ 完成"
+  });
+}
