@@ -1,68 +1,56 @@
+// app/result/page.tsx
 'use client'
-import { useRouter, useSearchParams } from 'next/navigation'
-import { useEffect, useState } from 'react'
-import ResultContent from './ResultContent'
 
-export default function ResultPage() {
-  const router = useRouter()
+import { useSearchParams } from 'next/navigation'
+import { Suspense } from 'react'
+
+function ResultContent() {
   const searchParams = useSearchParams()
-  const [imageUrl, setImageUrl] = useState<string | null>(null)
-  const [promptPic, setPromptPic] = useState<string | null>(null)
-  const [promptMusic, setPromptMusic] = useState<string | null>(null)
-  const [musicUrl, setMusicUrl] = useState<string | null>(null)
-  const [loading, setLoading] = useState(true)
-
-  // 從 URL 參數中獲取資料
-  useEffect(() => {
-    const img = searchParams.get('img')
-    const music = searchParams.get('music')
-    const prompt = searchParams.get('prompt')
-    const musicPrompt = searchParams.get('music_prompt')
-
-    setImageUrl(img ? decodeURIComponent(img) : null)
-    setMusicUrl(music ? decodeURIComponent(music) : null)
-    setPromptPic(prompt ? decodeURIComponent(prompt) : null)
-    setPromptMusic(musicPrompt ? decodeURIComponent(musicPrompt) : null)
-    setLoading(false)
-  }, [searchParams])
+  const img = searchParams.get('img')
+  const music = searchParams.get('music')
+  const prompt = searchParams.get('prompt')
+  const musicPrompt = searchParams.get('music_prompt')
 
   return (
-    <div
-      className="min-h-screen flex items-center justify-center p-6"
-      style={{
-        background: 'linear-gradient(135deg, #FFED97 0%, #f2af4b 100%)',
-      }}
-    >
-      <div className="bg-[#fceeac] rounded-3xl shadow-xl max-w-3xl w-full p-12 space-y-10 flex flex-col items-center relative">
-        {/* 歷史記錄按鈕 */}
-        <button
-          type="button"
-          onClick={() => router.push('/history')}
-          className="absolute top-6 right-6 bg-[#d18f4b] hover:bg-[#bd7b39] text-white px-4 py-2 rounded-xl font-semibold transition-colors duration-200 shadow-lg"
-        >
-          📅 歷史記錄
-        </button>
-
-        <h1 className="text-4xl font-extrabold text-[#BB5E00] select-none mb-8">
-          🎨 你的心情創作
+    <div className="min-h-screen p-6" style={{
+      background: 'linear-gradient(135deg, #FFED97 0%, #f2af4b 100%)',
+    }}>
+      <div className="max-w-4xl mx-auto">
+        <h1 className="text-3xl font-bold text-[#BB5E00] mb-8 text-center">
+          🎵 生成結果
         </h1>
 
-        <ResultContent
-          imageUrl={imageUrl}
-          promptPic={promptPic}
-          promptMusic={promptMusic}
-          musicUrl={musicUrl}
-          loading={loading}
-        />
+        {img && (
+          <div className="mb-8">
+            <h2 className="text-xl font-semibold text-[#BB5E00] mb-4">生成的圖片</h2>
+            <img src={img} alt="Generated" className="w-full max-w-md mx-auto rounded-lg shadow-lg" />
+          </div>
+        )}
 
-        {/* 返回按鈕 */}
+        {music && (
+          <div className="mb-8">
+            <h2 className="text-xl font-semibold text-[#BB5E00] mb-4">生成的音樂</h2>
+            <audio controls className="w-full">
+              <source src={music} type="audio/mpeg" />
+            </audio>
+          </div>
+        )}
+
         <button
-          onClick={() => router.push('/')}
-          className="w-full max-w-xs py-3 rounded-xl text-white font-semibold transition shadow-lg hover:shadow-xl transform hover:scale-105 bg-[#d18f4b] hover:bg-[#bd7b39] focus:outline-none focus:ring-4 focus:ring-[#BB5E00]"
+          onClick={() => window.history.back()}
+          className="bg-[#d18f4b] hover:bg-[#bd7b39] text-white px-6 py-3 rounded-xl font-semibold transition-colors duration-200 shadow-lg"
         >
-          返回首頁
+          ← 返回
         </button>
       </div>
     </div>
+  )
+}
+
+export default function ResultPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ResultContent />
+    </Suspense>
   )
 }
