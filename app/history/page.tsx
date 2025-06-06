@@ -14,6 +14,11 @@ const mockHistoryData = {
   '2025-06-20': { mood: '平靜', emoji: '😌', diary: '冥想了一小時，內心很平靜。' },
 }
 
+const currentMonth = new Date().toISOString().slice(0, 7)
+const currentMonthData = Object.entries(mockHistoryData).filter(
+    ([date, _]) => date.startsWith(currentMonth)
+  )
+
 interface HistoryEntry {
   mood: string
   emoji: string
@@ -198,13 +203,6 @@ export default function HistoryPage() {
             </div>
           </div>
         </div>
-
-
-        // 獲取目前年月 (例如 '2025-06')
-        const currentMonth = new Date().toISOString().slice(0, 7)
-
-        // 過濾出本月的紀錄
-        const currentMonthData = Object.entries(mockHistoryData).filter(([date, _]) => date.startsWith(currentMonth))
 
         {/* 統計信息 */}
         <div className="mt-8 bg-[#fceeac] rounded-3xl shadow-xl p-8">
