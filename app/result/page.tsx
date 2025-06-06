@@ -15,7 +15,12 @@ function ResultContent() {
   const backgroundImage = img || '/night-sky-stars.jpg'
 
   return (
-    <div>
+    <div
+      className="min-h-screen p-6 bg-cover bg-center"
+      style={{
+        backgroundImage: `url(${backgroundImage})`,
+      }}
+    >
       {/* 歷史記錄按鈕 */}
       <button
         type="button"
@@ -24,13 +29,7 @@ function ResultContent() {
       >
         查看歷史紀錄
       </button>
-    </div>
-    <div
-      className="min-h-screen p-6 bg-cover bg-center"
-      style={{
-        backgroundImage: `url(${backgroundImage})`,
-      }}
-    >
+      
       <div className="backdrop-blur-sm bg-white/70 rounded-xl p-6 max-w-4xl mx-auto shadow-xl">
         <h1 className="text-3xl font-bold text-[#BB5E00] mb-8 text-center">
           🎵 生成結果
