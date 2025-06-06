@@ -12,6 +12,9 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "next": "15.3.3"
+    "postcss": "^8.4.24",
+    "autoprefixer": "^10.4.14"
+
   },
   "devDependencies": {
     "typescript": "^5",
