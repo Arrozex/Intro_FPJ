@@ -15,14 +15,16 @@ function ResultContent() {
   const backgroundImage = img || '/night-sky-stars.jpg'
 
   return (
+    <div>
       {/* 歷史記錄按鈕 */}
       <button
         type="button"
         onClick={() => router.push('/history')}
         className="absolute top-6 right-6 bg-[#d18f4b] hover:bg-[#bd7b39] text-white px-4 py-2 rounded-xl font-semibold transition-colors duration-200 shadow-lg"
       >
-        📅 歷史記錄
+        查看歷史紀錄
       </button>
+    </div>
     <div
       className="min-h-screen p-6 bg-cover bg-center"
       style={{
