@@ -163,7 +163,7 @@ export default function HomePage() {
         {/* 歷史記錄按鈕 */}
         <button
           type="button"
-          onClick={() => router.push('https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0')}
+          onClick={() => router.push('/history')}
           className="absolute top-6 right-6 bg-[#d18f4b] hover:bg-[#bd7b39] text-white px-4 py-2 rounded-xl font-semibold transition-colors duration-200 shadow-lg"
         >
           📅 歷史記錄
