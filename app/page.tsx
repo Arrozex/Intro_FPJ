@@ -19,66 +19,30 @@ export default function HomePage() {
   const [apiError, setApiError] = useState('')
 
   // 檢測API連接狀態
-  const checkApiConnection = async () => {
-    setApiStatus('checking')
-    try {
-      const response = await fetch('/api/generate', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-          mood: '測試', 
-          diary: '這是一個API連接測試' 
-        }),
-      })
-      
-      const contentType = response.headers.get('content-type')
-      let errorMessage = ''
-      
-      if (response.ok) {
-        // 嘗試解析JSON來確認API格式正確
-        try {
-          const data = await response.json()
-          if (data.prompt_pic || data.image_url || data.status) {
-            setApiStatus('connected')
-            setApiError('')
-            return
-          } else {
-            setApiStatus('error')
-            setApiError('API返回格式不正確')
-            return
-          }
-        } catch (jsonError) {
-          setApiStatus('error')
-          setApiError('API返回非JSON格式')
-          return
-        }
-      } else {
-        // 處理錯誤響應
-        try {
-          if (contentType && contentType.includes('application/json')) {
-            const errorData = await response.json()
-            errorMessage = errorData.error || errorData.detail || `HTTP ${response.status}`
-          } else {
-            // 如果不是JSON，讀取文本內容
-            const errorText = await response.text()
-            errorMessage = `HTTP ${response.status}: ${errorText.substring(0, 100)}...`
-          }
-        } catch (parseError) {
-          errorMessage = `HTTP ${response.status}: 無法解析錯誤訊息`
-        }
-        
-        setApiStatus('error')
-        setApiError(errorMessage)
-      }
-    } catch (error: any) {
+const checkApiConnection = async () => {
+  setApiStatus('checking')
+  try {
+    const response = await fetch('https://yitxx-prompt-pics.hf.space/health')
+    if (!response.ok) {
       setApiStatus('error')
-      if (error.name === 'TypeError' && error.message.includes('fetch')) {
-        setApiError('無法連接到伺服器')
-      } else {
-        setApiError(error.message || '網路連接失敗')
-      }
+      setApiError(`HTTP ${response.status}: 無法取得健康狀態`)
+      return
     }
+
+    const health = await response.json()
+    if (health.initialization_complete) {
+      setApiStatus('connected')
+      setApiError('')
+    } else {
+      setApiStatus('error')
+      setApiError('模型尚未初始化完成')
+    }
+  } catch (err: any) {
+    setApiStatus('error')
+    setApiError('無法連接到遠端 API')
   }
+}
+
 
   // 頁面載入時自動檢測
   useEffect(() => {
