@@ -31,11 +31,6 @@ function ResultContent() {
       >
         查看歷史紀錄
       </button>
-      
-      <div className="backdrop-blur-sm bg-white/70 rounded-xl p-6 max-w-4xl mx-auto shadow-xl">
-        <h1 className="text-3xl font-bold text-[#BB5E00] mb-8 text-center">
-          🎵 生成結果
-        </h1>
 
         {prompt && (
           <p className="text-center text-[#7a3e00] text-sm italic mb-6">
@@ -63,7 +58,6 @@ function ResultContent() {
         >
           ← 返回
         </button>
-      </div>
     </div>
   )
 }
