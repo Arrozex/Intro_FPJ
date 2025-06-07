@@ -201,24 +201,26 @@ export default function HistoryPage() {
                     </div>
 
                     {/* 顯示圖片按鈕 */}
-                    {selectedEntry.image && (
-                      <button
-                        onClick={() => window.open(selectedEntry.image, '_blank')}
-                        className="bg-white text-[#BB5E00] text-sm font-medium px-3 py-1 rounded-full border border-[#BB5E00] hover:bg-[#fde49b] transition"
-                      >
-                        🖼︎
-                      </button>
-                      )}
+                    <div className="flex justify-between pt-2">
+                      {selectedEntry.image && (
+                        <button
+                          onClick={() => window.open(selectedEntry.image, '_blank')}
+                          className="bg-white text-[#BB5E00] text-sm font-medium px-3 py-1 rounded-full border border-[#BB5E00] hover:bg-[#fde49b] transition"
+                        >
+                          🖼︎
+                        </button>
+                        )}
 
-                    {/* 播放音樂按鈕 */}
-                    {selectedEntry.music && (
-                      <button
-                        onClick={() => window.open(selectedEntry.music, '_blank')}
-                        className="bg-white text-[#BB5E00] text-sm font-medium px-3 py-1 rounded-full border border-[#BB5E00] hover:bg-[#fde49b] transition"
-                      >
-                        ♫
-                      </button>
-                    )}
+                      {/* 播放音樂按鈕 */}
+                      {selectedEntry.music && (
+                        <button
+                          onClick={() => window.open(selectedEntry.music, '_blank')}
+                          className="bg-white text-[#BB5E00] text-sm font-medium px-3 py-1 rounded-full border border-[#BB5E00] hover:bg-[#fde49b] transition"
+                        >
+                          ♫
+                        </button>
+                      )}
+                    </div>>
                 </div>
               </div>
             ) : (
