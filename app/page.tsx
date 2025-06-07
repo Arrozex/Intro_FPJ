@@ -134,12 +134,12 @@ const checkApiConnection = async () => {
           📅 歷史記錄
         </button>
 
-        <h1
+        <h2
           className="text-4xl font-extrabold text-[#BB5E00] select-none mb-8"
           style={{ userSelect: 'none' }}
         >
-          🎵 你今天心情如何？
-        </h1>
+          今天的心情如何？
+        </h3>
 
         <div className="flex gap-6 mb-12 justify-center flex-wrap">
           {moods.map(({ label, emoji }) => (
@@ -177,7 +177,7 @@ const checkApiConnection = async () => {
         >
           <label className="block">
             <span className="text-[#BB5E00] font-semibold mb-2 inline-block text-lg">
-              日記內容
+              日記
             </span>
             <textarea
               value={diary}
