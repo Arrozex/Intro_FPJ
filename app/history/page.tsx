@@ -4,20 +4,21 @@ import { useRouter } from 'next/navigation'
 
 // 模擬的歷史數據
 const mockHistoryData = {
-  '2025-06-01': { mood: '快樂', emoji: '😊', diary: '今天天氣很好，心情也很棒！' },
-  '2025-06-03': { mood: '平靜', emoji: '😌', diary: '讀了一本好書，感覺很平靜。' },
-  '2025-06-05': { mood: '焦慮', emoji: '😰', diary: '工作壓力有點大...' },
-  '2025-06-08': { mood: '快樂', emoji: '😊', diary: '和朋友聚餐，非常開心！' },
-  '2025-06-12': { mood: '悲傷', emoji: '😢', diary: '今天有點低落，不知道為什麼。' },
-  '2025-06-15': { mood: '憤怒', emoji: '😡', diary: '遇到一些令人生氣的事情。' },
-  '2025-06-18': { mood: '快樂', emoji: '😊', diary: '完成了一個重要的項目！' },
-  '2025-06-20': { mood: '平靜', emoji: '😌', diary: '冥想了一小時，內心很平靜。' },
+  '2025-06-01': { mood: '快樂', emoji: '😊', diary: '今天天氣很好，心情也很棒！', image: 'https://images.pexels.com/photos/33044/sunflower-sun-summer-yellow.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2', music: 'https://example.com/music.mp3'},
+  '2025-06-03': { mood: '平靜', emoji: '😌', diary: '讀了一本好書，感覺很平靜。' , image: 'https://images.pexels.com/photos/96627/pexels-photo-96627.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2', music: 'https://example.com/music.mp3'},
+  '2025-06-05': { mood: '焦慮', emoji: '😰', diary: '工作壓力有點大...' , image: 'https://images.pexels.com/photos/4220967/pexels-photo-4220967.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2', music: 'https://example.com/music.mp3'},
+  '2025-06-07': { mood: '快樂', emoji: '😢', diary: '作業要做不完了...' , image: 'https://images.pexels.com/photos/1743165/pexels-photo-1743165.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2', music: 'https://example.com/music.mp3'},
+  '2025-05-12': { mood: '悲傷', emoji: '😢', diary: '今天有點低落，不知道為什麼。' , image: 'https://images.pexels.com/photos/1743165/pexels-photo-1743165.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2', music: 'https://example.com/music.mp3'},
+  '2025-05-15': { mood: '憤怒', emoji: '😡', diary: '遇到一些令人生氣的事情。' , image: 'https://images.pexels.com/photos/68645/hawaii-volcano-hot-fire-68645.jpeg?auto=compress&cs=tinysrgb&w=600', music: 'https://example.com/music.mp3'},
+  '2025-05-18': { mood: '快樂', emoji: '😊', diary: '完成了一個重要的項目！' , image: 'https://images.pexels.com/photos/33044/sunflower-sun-summer-yellow.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2', music: 'https://example.com/music.mp3'},
+  '2025-05-20': { mood: '平靜', emoji: '😌', diary: '冥想了一小時，內心很平靜。' , image: 'https://images.pexels.com/photos/33044/sunflower-sun-summer-yellow.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2', music: 'https://example.com/music.mp3'},
 }
 
-const currentMonth = new Date().toISOString().slice(0, 7)
+const displayedMonth = `${year}-${String(month + 1).padStart(2, '0')}`
 const currentMonthData = Object.entries(mockHistoryData).filter(
-    ([date, _]) => date.startsWith(currentMonth)
-  )
+  ([date, _]) => date.startsWith(displayedMonth)
+)
+
 
 interface HistoryEntry {
   mood: string
@@ -100,7 +101,7 @@ export default function HistoryPage() {
             ← 返回主頁
           </button>
           <h2 className="text-3xl font-extrabold text-[#BB5E00]">
-            📅 心情歷史記錄
+            心情記錄
           </h2>
           <div className="w-24"></div> {/* 佔位符，保持標題居中 */}
         </div>
@@ -157,7 +158,7 @@ export default function HistoryPage() {
                         hasEntry
                           ? isSelected
                             ? 'bg-[#BB5E00] text-white shadow-lg scale-105'
-                            : 'bg-white hover:bg-[#BB5E00] shadow-md hover:shadow-lg hover:scale-105'
+                            : 'bg-white hover:bg-[#f7f7f7] shadow-md hover:shadow-lg hover:scale-105'
                           : 'text-[#888] hover:bg-white/50'
                       }
                         ${isToday ? 'ring-2 ring-[#f29f05] ring-offset-1' : ''}`}
@@ -182,22 +183,40 @@ export default function HistoryPage() {
                 <div className="space-y-6">
                   <div className="text-center">
                     <div className="text-4xl mb-2">{selectedEntry.emoji}</div>
-                    <h3 className="text-xl font-bold text-[#BB5E00]">
-                      {selectedEntry.mood}
-                    </h3>
-                    <p className="text-sm text-[#888] mt-1">
-                      {selectedDate}
-                    </p>
-                  </div>
-                  
-                  <div className="border-t border-[#d18f4b]/20 pt-6">
-                    <h4 className="font-semibold text-[#BB5E00] mb-3">日記內容</h4>
-                    <div className="bg-white/60 rounded-lg p-4 text-[#3d2e00] leading-relaxed">
-                      {selectedEntry.diary}
+                      <h3 className="text-xl font-bold text-[#BB5E00]">
+                        {selectedEntry.mood}
+                      </h3>
+                      <p className="text-sm text-[#888] mt-1">{selectedDate}</p>
                     </div>
-                  </div>
+
+                    <div className="border-t border-[#d18f4b]/20 pt-6 space-y-4">
+                      <h4 className="font-semibold text-[#BB5E00]">日記內容</h4>
+                      <div className="bg-white/60 rounded-lg p-4 text-[#3d2e00] leading-relaxed">
+                        {selectedEntry.diary}
+                    </div>
+
+                    {/* 顯示圖片按鈕 */}
+                    {selectedEntry.image && (
+                      <button
+                        onClick={() => window.open(selectedEntry.image, '_blank')}
+                        className="bg-white text-[#BB5E00] text-sm font-medium px-3 py-1 rounded-full border border-[#BB5E00] hover:bg-[#fde49b] transition"
+                      >
+                        🖼️ 查看圖片
+                      </button>
+                      )}
+
+                    {/* 播放音樂按鈕 */}
+                    {selectedEntry.music && (
+                      <button
+                        onClick={() => window.open(selectedEntry.music, '_blank')}
+                        className="bg-white text-[#BB5E00] text-sm font-medium px-3 py-1 rounded-full border border-[#BB5E00] hover:bg-[#fde49b] transition"
+                      >
+                        🎵 播放音樂
+                      </button>
+                    )}
                 </div>
-              ) : (
+              </div>
+            ) : (
                 <div className="text-center text-[#888] py-12">
                   <div className="text-4xl mb-4">📝</div>
                   <p>點擊日曆上有記錄的日期</p>
@@ -207,6 +226,7 @@ export default function HistoryPage() {
             </div>
           </div>
         </div>
+
 
         {/* 統計信息 */}
         <div className="mt-8 bg-[#fceeac] rounded-3xl shadow-xl p-8">
@@ -219,8 +239,7 @@ export default function HistoryPage() {
               return (
                 <div key={mood} className="bg-white/60 rounded-lg p-4 text-center">
                   <div className="text-2xl mb-2">{emoji}</div>
-                  <div className="font-semibold text-[#BB5E00]">{mood}</div>
-                  <div className="text-sm text-[#888]">{count} 次</div>
+                  <div className="text-sm text-[#888]">{count} 天</div>
                 </div>
               )
             })}
