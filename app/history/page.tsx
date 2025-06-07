@@ -36,6 +36,8 @@ export default function HistoryPage() {
   const month = currentDate.getMonth()
   const firstDay = new Date(year, month, 1).getDay()
   const daysInMonth = new Date(year, month + 1, 0).getDate()
+  const todayStr = new Date().toISOString().slice(0, 10)  // YYYY-MM-DD 格式
+
 
   // 月份名稱
   const monthNames = [
@@ -97,9 +99,9 @@ export default function HistoryPage() {
           >
             ← 返回主頁
           </button>
-          <h1 className="text-3xl font-extrabold text-[#BB5E00]">
+          <h2 className="text-3xl font-extrabold text-[#BB5E00]">
             📅 心情歷史記錄
-          </h1>
+          </h2>
           <div className="w-24"></div> {/* 佔位符，保持標題居中 */}
         </div>
 
@@ -139,24 +141,26 @@ export default function HistoryPage() {
               <div className="grid grid-cols-7 gap-2">
                 {calendarDays.map((day, index) => {
                   if (day === null) {
-                    return <div key={index} className="h-12"></div>
+                    return <div key={`empty-${index}`} className="h-12"></div>
                   }
 
                   const dateKey = formatDate(day)
                   const hasEntry = mockHistoryData[dateKey as keyof typeof mockHistoryData]
                   const isSelected = selectedDate === dateKey
+                  const isToday = dateKey === todayStr
 
                   return (
                     <button
-                      key={day}
+                      key={`day-${day}`}
                       onClick={() => handleDateClick(day)}
                       className={`h-12 rounded-lg transition-all duration-200 flex items-center justify-center relative ${
                         hasEntry
                           ? isSelected
                             ? 'bg-[#BB5E00] text-white shadow-lg scale-105'
-                            : 'bg-white hover:bg-[#f0f0f0] shadow-md hover:shadow-lg hover:scale-105'
+                            : 'bg-white hover:bg-[#BB5E00] shadow-md hover:shadow-lg hover:scale-105'
                           : 'text-[#888] hover:bg-white/50'
-                      }`}
+                      }
+                        ${isToday ? 'ring-2 ring-[#f29f05] ring-offset-1' : ''}`}
                     >
                       <span className="text-sm font-medium">{day}</span>
                       {hasEntry && (
