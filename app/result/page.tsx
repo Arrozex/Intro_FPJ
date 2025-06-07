@@ -7,7 +7,7 @@ import { Suspense, useState } from 'react'
 function ResultContent() {
   const searchParams = useSearchParams()
   const router = useRouter()
-  const img = searchParams.get('img')
+  //const img = searchParams.get('img') 暫時先不要因為額度不夠生不出來
   const music = searchParams.get('music')
   const prompt = searchParams.get('prompt')
   const musicPrompt = searchParams.get('music_prompt')
@@ -53,7 +53,7 @@ function ResultContent() {
         <div className="mb-8">
           <h2 className="text-xl font-semibold text-[#BB5E00] mb-4">心情音樂</h2>
           <audio controls className="w-full">
-            <source src="https://youtube.com/shorts/h1JQ-hzBQWI?si=v4OiNGjiuz7K8Kkc" type="audio/mpeg" />
+            <source src="/music/my-audio.mp3" />
           </audio>
           {musicPrompt && (
             <p className="text-center text-[#e3e1de] text-sm italic mt-2">
