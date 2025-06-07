@@ -79,7 +79,7 @@ const checkApiConnection = async () => {
       }}
     >
       {/* API 狀態欄 */}
-      <div className="fixed top-4 left-4 right-4 z-50 flex justify-center">
+      <div className="fixed top-4 left-4 z-50 flex justify-start">
         <div className={`px-6 py-3 rounded-xl shadow-lg font-semibold text-sm flex items-center gap-3 transition-all duration-500 ${
           apiStatus === 'checking' 
             ? 'bg-yellow-100 text-yellow-800 border-2 border-yellow-300' 
