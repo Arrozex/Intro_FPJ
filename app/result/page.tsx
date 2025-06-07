@@ -8,6 +8,7 @@ function ResultContent() {
   const searchParams = useSearchParams()
   const router = useRouter()
   //const img = searchParams.get('img') 暫時先不要因為額度不夠生不出來
+  const img = ""
   const music = searchParams.get('music')
   const prompt = searchParams.get('prompt')
   const musicPrompt = searchParams.get('music_prompt')
