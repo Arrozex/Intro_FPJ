@@ -4,7 +4,7 @@ export async function POST(req: NextRequest) {
   try {
     const { mood, diary } = await req.json()
 
-    const apiURL = "https://yitxx-prompt-pics.hf.space/predict" // 換成你自己的 API 網址
+    const apiURL = "https://yitxx-prompt-pics.hf.space/api/generate" // 換成你自己的 API 網址
 
     const response = await fetch(apiURL, {
       method: 'POST',
