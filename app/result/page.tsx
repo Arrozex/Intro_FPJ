@@ -44,11 +44,13 @@ function ResultContent() {
         查看歷史紀錄
       </button>
 
+      {/* 包起來不顯示比較美觀
       {prompt && (
         <p className="text-center text-[#e3e1de] text-sm italic mb-6">
           圖片提示詞：{prompt}
         </p>
-      )}
+      )} 
+      */}
 
       {music && (
         <div className="mb-8">
@@ -57,11 +59,13 @@ function ResultContent() {
             <source src="/music/43412315_MotionElements_christmas-corporate_preview.mp3" type="audio/mpeg" />
             你的瀏覽器不支援 audio 元素。
           </audio>
+          {/* 包起來不顯示比較美觀
           {musicPrompt && (
             <p className="text-center text-[#e3e1de] text-sm italic mt-2">
               音樂提示詞：{musicPrompt}
             </p>
           )}
+          */}
         </div>
       )}
 
