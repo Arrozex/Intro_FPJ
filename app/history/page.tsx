@@ -14,10 +14,11 @@ const mockHistoryData = {
   '2025-05-20': { mood: '平靜', emoji: '😌', diary: '冥想了一小時，內心很平靜。' , image: 'https://images.pexels.com/photos/33044/sunflower-sun-summer-yellow.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2', music: 'https://example.com/music.mp3'},
 }
 
-const displayedMonth = `${year}-${String(month + 1).padStart(2, '0')}`
+const currentMonth = new Date().toISOString().slice(0, 7)
 const currentMonthData = Object.entries(mockHistoryData).filter(
-  ([date, _]) => date.startsWith(displayedMonth)
+  ([date, _]) => date.startsWith(currentMonth)
 )
+
 
 
 interface HistoryEntry {
@@ -39,6 +40,10 @@ export default function HistoryPage() {
   const daysInMonth = new Date(year, month + 1, 0).getDate()
   const todayStr = new Date().toISOString().slice(0, 10)  // YYYY-MM-DD 格式
 
+  const displayedMonth = `${year}-${String(month + 1).padStart(2, '0')}`
+  const currentMonthData = Object.entries(mockHistoryData).filter(
+    ([date, _]) => date.startsWith(displayedMonth)
+  )
 
   // 月份名稱
   const monthNames = [
