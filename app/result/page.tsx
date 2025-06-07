@@ -1,9 +1,8 @@
-// app/result/page.tsx
 'use client'
 
 import { useSearchParams } from 'next/navigation'
 import { useRouter } from 'next/navigation'
-import { Suspense } from 'react'
+import { Suspense, useState } from 'react'
 
 function ResultContent() {
   const searchParams = useSearchParams()
@@ -16,11 +15,23 @@ function ResultContent() {
   // 背景圖片邏輯
   const backgroundImage = img || '/night-sky-stars.jpg'
 
+  // 用於記錄用戶對生成結果的滿意度回饋
+  const [feedback, setFeedback] = useState<'positive' | 'negative' | null>(null)
+  const [feedbackSent, setFeedbackSent] = useState(false)
+
+  // 模擬回饋送出（未來可以改成呼叫 API）
+  const handleFeedback = (type: 'positive' | 'negative') => {
+    setFeedback(type)
+    setFeedbackSent(true)
+    // TODO: 這裡可以擴展成呼叫 API 傳送回饋數據
+    console.log('用戶回饋:', type)
+  }
+
   return (
     <div
-      className="min-h-screen p-6 bg-cover bg-center"
+      className="min-h-screen p-6 bg-cover bg-center relative"
       style={{
-        backgroundImage: 'url(https://images.unsplash.com/photo-1503264116251-35a269479413?auto=format&fit=crop&w=1950&q=80)',
+        backgroundImage: `url(${backgroundImage})`,
       }}
     >
       {/* 歷史記錄按鈕 */}
@@ -32,36 +43,62 @@ function ResultContent() {
         查看歷史紀錄
       </button>
 
-        {prompt && (
-          <p className="text-center text-[#e3e1de] text-sm italic mb-6">
-            圖片提示詞：{prompt}
-          </p>
-        )}
+      {prompt && (
+        <p className="text-center text-[#e3e1de] text-sm italic mb-6">
+          圖片提示詞：{prompt}
+        </p>
+      )}
 
-        {music && (
-          <div className="mb-8">
-            <h2 className="text-xl font-semibold text-[#BB5E00] mb-4">心情音樂</h2>
-            <audio controls className="w-full">
-              <source src={music} type="audio/mpeg" />
-            </audio>
-            {musicPrompt && (
-              <p className="text-center text-[#e3e1de] text-sm italic mt-2">
-                音樂提示詞：{musicPrompt}
-              </p>
-            )}
+      {music && (
+        <div className="mb-8">
+          <h2 className="text-xl font-semibold text-[#BB5E00] mb-4">心情音樂</h2>
+          <audio controls className="w-full">
+            <source src="https://youtube.com/shorts/h1JQ-hzBQWI?si=v4OiNGjiuz7K8Kkc" type="audio/mpeg" />
+          </audio>
+          {musicPrompt && (
+            <p className="text-center text-[#e3e1de] text-sm italic mt-2">
+              音樂提示詞：{musicPrompt}
+            </p>
+          )}
+        </div>
+      )}
+
+      <button
+        onClick={() => window.history.back()}
+        className="absolute bottom-8 left-6 bg-[#d18f4b] hover:bg-[#bd7b39] text-white px-6 py-3 rounded-xl font-semibold transition-colors duration-200 shadow-lg"
+      >
+        ← 返回
+      </button>
+
+      {/* 新增：生成回饋按鈕區塊 */}
+      <div className="fixed bottom-8 right-6 flex flex-col items-center space-y-2 bg-black bg-opacity-50 p-4 rounded-xl shadow-lg text-white">
+        <p className="mb-1 font-semibold">您對生成結果滿意嗎？</p>
+        {feedbackSent ? (
+          <p className="text-green-400">
+            {feedback === 'positive' ? '感謝您的肯定！✔' : '已收到您的回饋✘'}
+          </p>
+        ) : (
+          <div className="flex space-x-4">
+            <button
+              onClick={() => handleFeedback('positive')}
+              aria-label="滿意"
+              className="text-2xl hover:text-green-400 transition-colors"
+            >
+              ✔
+            </button>
+            <button
+              onClick={() => handleFeedback('negative')}
+              aria-label="不滿意"
+              className="text-2xl hover:text-red-400 transition-colors"
+            >
+              ✘
+            </button>
           </div>
         )}
-
-        <button
-          onClick={() => window.history.back()}
-          className="absolute bottom-8 left-6 bg-[#d18f4b] hover:bg-[#bd7b39] text-white px-6 py-3 rounded-xl font-semibold transition-colors duration-200 shadow-lg"
-        >
-          ← 返回
-        </button>
+      </div>
     </div>
   )
 }
-
 
 export default function ResultPage() {
   return (
