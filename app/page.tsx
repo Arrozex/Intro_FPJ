@@ -197,7 +197,7 @@ const checkApiConnection = async () => {
                 : 'bg-[#d18f4b] hover:bg-[#bd7b39] focus:outline-none focus:ring-4 focus:ring-[#BB5E00] disabled:opacity-50 disabled:cursor-not-allowed'
             } text-lg`}
           >
-            {loading ? '生成中...' : apiStatus !== 'connected' ? 'API 未連接' : '分析並生成'}
+            {loading ? '生成中...' : apiStatus !== 'connected' ? 'API 未連接' : '紀錄'}
           </button>
         </div>
       </form>
