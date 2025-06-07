@@ -54,7 +54,7 @@ function ResultContent() {
         <div className="mb-8">
           <h2 className="text-xl font-semibold text-[#BB5E00] mb-4">心情音樂</h2>
           <audio controls className="w-full">
-            <source src="/music/my-audio.mp3" type="audio/mpeg" />
+            <source src="/music/43412315_MotionElements_christmas-corporate_preview.mp3" type="audio/mpeg" />
             你的瀏覽器不支援 audio 元素。
           </audio>
           {musicPrompt && (
