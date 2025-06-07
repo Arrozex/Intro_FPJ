@@ -206,7 +206,7 @@ export default function HistoryPage() {
                         onClick={() => window.open(selectedEntry.image, '_blank')}
                         className="bg-white text-[#BB5E00] text-sm font-medium px-3 py-1 rounded-full border border-[#BB5E00] hover:bg-[#fde49b] transition"
                       >
-                        🖼️ 查看圖片
+                        🖼︎
                       </button>
                       )}
 
@@ -216,7 +216,7 @@ export default function HistoryPage() {
                         onClick={() => window.open(selectedEntry.music, '_blank')}
                         className="bg-white text-[#BB5E00] text-sm font-medium px-3 py-1 rounded-full border border-[#BB5E00] hover:bg-[#fde49b] transition"
                       >
-                        🎵 播放音樂
+                        ♫
                       </button>
                     )}
                 </div>
