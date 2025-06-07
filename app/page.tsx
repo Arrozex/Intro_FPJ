@@ -134,7 +134,7 @@ const checkApiConnection = async () => {
           📅 歷史記錄
         </button>
 
-        <h2
+        <h3
           className="text-4xl font-extrabold text-[#BB5E00] select-none mb-8"
           style={{ userSelect: 'none' }}
         >
