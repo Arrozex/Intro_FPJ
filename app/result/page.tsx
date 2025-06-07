@@ -33,19 +33,19 @@ function ResultContent() {
       </button>
 
         {prompt && (
-          <p className="text-center text-[#7a3e00] text-sm italic mb-6">
+          <p className="text-center text-[#e3e1de] text-sm italic mb-6">
             圖片提示詞：{prompt}
           </p>
         )}
 
         {music && (
           <div className="mb-8">
-            <h2 className="text-xl font-semibold text-[#BB5E00] mb-4">生成的音樂</h2>
+            <h2 className="text-xl font-semibold text-[#BB5E00] mb-4">心情音樂</h2>
             <audio controls className="w-full">
               <source src={music} type="audio/mpeg" />
             </audio>
             {musicPrompt && (
-              <p className="text-center text-[#7a3e00] text-sm italic mt-2">
+              <p className="text-center text-[#e3e1de] text-sm italic mt-2">
                 音樂提示詞：{musicPrompt}
               </p>
             )}
@@ -54,7 +54,7 @@ function ResultContent() {
 
         <button
           onClick={() => window.history.back()}
-          className="bg-[#d18f4b] hover:bg-[#bd7b39] text-white px-6 py-3 rounded-xl font-semibold transition-colors duration-200 shadow-lg"
+          className="absolute bottom-8 left-6 bg-[#d18f4b] hover:bg-[#bd7b39] text-white px-6 py-3 rounded-xl font-semibold transition-colors duration-200 shadow-lg"
         >
           ← 返回
         </button>
