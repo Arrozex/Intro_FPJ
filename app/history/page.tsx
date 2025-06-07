@@ -25,6 +25,8 @@ interface HistoryEntry {
   mood: string
   emoji: string
   diary: string
+  music?: string
+  prompt?: string
 }
 
 export default function HistoryPage() {
