@@ -18,7 +18,7 @@ export default function HomePage() {
   const [apiStatus, setApiStatus] = useState<'checking' | 'connected' | 'error' | 'idle'>('idle')
   const [apiError, setApiError] = useState('')
 
-  // 檢測API連接狀態
+// 檢測API連接狀態
 const checkApiConnection = async () => {
   setApiStatus('checking')
   try {
@@ -30,18 +30,19 @@ const checkApiConnection = async () => {
     }
 
     const health = await response.json()
-    if (health.initialization_complete) {
+    if (health.status === 'ok' || health.status === 'healthy') {
       setApiStatus('connected')
       setApiError('')
     } else {
       setApiStatus('error')
-      setApiError('模型尚未初始化完成')
+      setApiError(`API 回應異常：${health.status}`)
     }
   } catch (err: any) {
     setApiStatus('error')
     setApiError('無法連接到遠端 API')
   }
 }
+
 
 
   // 頁面載入時自動檢測
